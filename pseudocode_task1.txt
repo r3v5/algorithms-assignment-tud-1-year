@@ -1,21 +1,23 @@
 // Structures
-struct DateTime:
+Structure DateTime:
     hour
     minute
     day
     month
     year
+EndStructure
 
-struct Issue:
+Structuretruct Issue:
     issue_code
     description
+EndStructure
 
-struct Resolution:
+Structure Resolution:
     resolution_code
     description
+EndStructure
 
-
-struct QaLog:
+Structure QaLog:
     line_code;
     batch_code;
     DateTime date_time;
@@ -23,6 +25,7 @@ struct QaLog:
     struct Issue issue;
     struct Resolution resolution;
     reporting_employee_id
+EndStructure
 
 
 // Functions

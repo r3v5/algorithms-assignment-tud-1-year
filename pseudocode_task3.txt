@@ -1,0 +1,28 @@
+// Structures
+Structure DateTime:
+    hour
+    minute
+    day
+    month
+    year
+EndStructure
+
+Structuretruct Issue:
+    issue_code
+    description
+EndStructure
+
+Structure Resolution:
+    resolution_code
+    description
+EndStructure
+
+Structure QaLog:
+    line_code;
+    batch_code;
+    DateTime date_time;
+    product_id;
+    struct Issue issue;
+    struct Resolution resolution;
+    reporting_employee_id
+EndStructure
