@@ -1,0 +1,86 @@
+// Structures
+struct DateTime:
+    hour
+    minute
+    day
+    month
+    year
+
+struct Issue:
+    issue_code
+    description
+
+struct Resolution:
+    resolution_code
+    description
+
+
+struct QaLog:
+    line_code;
+    batch_code;
+    DateTime date_time;
+    product_id;
+    struct Issue issue;
+    struct Resolution resolution;
+    reporting_employee_id
+
+
+// Functions
+Program CompareLogs
+    Read log1, log2
+
+    If (log1.product_id != log2.product_id)
+        return log1.product_id - log2.product_id
+    EndIf
+    If (log1.issue.issue_code != log2.issue.issue_code)
+        return log1.issue.issue_code - log2.issue.issue_code
+    EndIf
+    If (log1.date_time.year != log2.date_time.year)
+        return log1.date_time.year - log2.date_time.year
+    EndIf
+    If (log1.date_time.month != log2.date_time.month)
+        return log1.date_time.month - log2.date_time.month
+    EndIf
+    If (log1.date_time.day != log2.date_time.day)
+        return log1.date_time.day - log2.date_time.day
+    EndIf
+    If (log1.date_time.hour != log2.date_time.hour)
+        return log1.date_time.hour - log2.date_time.hour
+    EndIf
+    If (log1.date_time.minute != log2.date_time.minute)
+        return log1.date_time.minute - log2.date_time.minute
+    EndIf
+    Else (
+        return 0
+    )
+EndProgram
+
+
+Program DisplayQaLogs
+    Read qa_logs, size_of_logs
+    i = 0
+    N = size_of_logs
+
+    While (i < N)
+        Print(
+            qa_logs[i].line_code, qa_logs[i].batch_code,
+            qa_logs[i].date_time.day, qa_logs[i].date_time.month, qa_logs[i].date_time.year,
+            qa_logs[i].date_time.hour, qa_logs[i].date_time.minute,
+            qa_logs[i].product_id,
+            qa_logs[i].issue.issue_code, qa_logs[i].issue.description,
+            qa_logs[i].resolution.resolution_code, qa_logs[i].resolution.description,
+            qa_logs[i].reporting_employee_id
+        )
+        i++
+    EndWhile
+EndProgram
+
+
+Program Main
+    struct QaLog qa_logs = {}
+    size_of_logs = qa_logs.Length
+
+    qsort(qa_logs, size_of_logs, sizeof(qa_logs[0]), CompareLogs)
+    DisplayQaLogs(qa_logs, size_of_logs)
+
+    return 0
