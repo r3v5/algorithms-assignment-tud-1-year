@@ -1,0 +1,68 @@
+// Structures
+struct DateTime:
+    hour
+    minute
+    day
+    month
+    year
+
+struct Issue:
+    issue_code
+    description
+
+struct Resolution:
+    resolution_code
+    description
+
+
+struct QaLog:
+    line_code;
+    batch_code;
+    DateTime date_time;
+    product_id;
+    struct Issue issue;
+    struct Resolution resolution;
+    reporting_employee_id
+
+
+// Functions
+Program GenerateReport
+    Read qa_logs, size_of_logs, product_id, line_code
+    issue_codes = {}
+    issue_count = 0
+    int i = 0
+    N = size_of_logs
+
+    While (i < N)
+        If (qa_logs[i].line_code == line_code && qa_logs[i].product_id == product_id)
+            issue_code = qa_logs[i].issue.issue_code
+            found = 0
+            int j = 0
+            While (j < issue_count)
+                If (issue_codes[j] == issue_code)
+                    found = 1
+                    break
+                EndIf
+            EndWhile
+            If (found == False)
+                issue_codes[issue_count++] = issue_code
+                If (issue_count == MAX_ISSUES)
+                    Print(stderr, "Maximum number of issues reached for product %d on line %d.\n", product_id, line_code)
+                EndIf
+            EndIf
+        EndIf
+    EndWhile
+    Print("All issue codes for Product ID %d on Line Code %d:", product_id, line_code)
+    While (i < issue_count)
+        Print(" %d", issue_codes[i])
+    EndWhile
+EndProgram
+
+
+Program Main
+    struct QaLog qa_logs = {}
+    size_of_logs = qa_logs.Length
+    product_id = 1
+    line_code = 1
+    GenerateReport(qa_logs, size_of_logs, product_id, line_code)
+    return 0

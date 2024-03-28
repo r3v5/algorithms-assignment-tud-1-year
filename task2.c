@@ -103,7 +103,7 @@ int main()
 }
 
 
-void generate_report(struct QaLog qa_logs[], int size_of_logs ,int product_id, int line_code)
+void generate_report(struct QaLog qa_logs[], int size_of_logs, int product_id, int line_code)
 {
     int issue_codes[MAX_ISSUES];
     int issue_count = 0;
