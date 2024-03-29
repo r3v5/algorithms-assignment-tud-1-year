@@ -45,6 +45,8 @@ struct QaLog {
 // Prototypes
 void display_qa_logs(struct QaLog qa_logs[], int size_of_logs);
 int compare_logs(const void *qa_log1, const void *qa_log2);
+void merge_sort(struct QaLog arr[], int low, int high);
+void merge(struct QaLog arr[], int low, int mid, int high);
 
 
 int main()
@@ -55,41 +57,32 @@ int main()
         {1, 1001, {10, 20, 28, 3, 2023}, 1, {1, "Some issue"}, {1, "Some resolution"}, 2142},
         {1, 1001, {8, 45, 28, 3, 2023}, 2, {1, "Some issue"}, {1, "Some resolution"}, 1342},
         {1, 1002, {2, 5, 28, 3, 2023}, 3, {1, "Some issue"}, {1, "Some resolution"}, 1524},
-
         {1, 1003, {4, 0, 29, 3, 2023}, 4, {1, "Some issue"}, {1, "Some resolution"}, 9884},
         {1, 1004, {6, 45, 29, 3, 2023}, 5, {1, "Some issue"}, {1, "Some resolution"}, 2423},
         {1, 1005, {17, 5, 29, 3, 2023}, 6, {1, "Some issue"}, {1, "Some resolution"}, 8941},
-
         {1, 1006, {11, 33, 30, 3, 2024}, 7, {1, "Some issue"}, {1, "Some resolution"}, 2412},
         {1, 1007, {13, 45, 30, 3, 2024}, 8, {1, "Some issue"}, {1, "Some resolution"}, 9724},
         {1, 1008, {14, 5, 30, 3, 2024}, 9, {1, "Some issue"}, {1, "Some resolution"}, 6427},
-
         {1, 1001, {9, 23, 31, 3, 2024}, 1, {1, "Some issue"}, {1, "Some resolution"}, 2141},
         {1, 1004, {11, 45, 31, 3, 2024}, 5, {1, "Some issue"}, {1, "Some resolution"}, 7489},
         {1, 1008, {22, 5, 31, 3, 2024}, 6, {1, "Some issue"}, {1, "Some resolution"}, 9884},
-
         {1, 1003, {7, 20, 1, 4, 2024}, 4, {1, "Some issue"}, {1, "Some resolution"}, 2141},
         {1, 1002, {11, 35, 1, 4, 2024}, 3, {1, "Some issue"}, {1, "Some resolution"}, 7489},
         {1, 1001, {19, 5, 1, 4, 2024}, 1, {1, "Some issue"}, {1, "Some resolution"}, 9884},
 
-
         // QA Logs for line 2
         {2, 1001, {10, 20, 28, 5, 2023}, 1, {1, "Some issue"}, {1, "Some resolution"}, 2142},
-        {2, 1001, {8, 45, 28, 5, 2023}, 2, {1, "Some isue"}, {1, "Some resolution"}, 1342},
+        {2, 1001, {8, 45, 28, 5, 2023}, 2, {1, "Some issue"}, {1, "Some resolution"}, 1342},
         {2, 1002, {2, 5, 28, 5, 2023}, 3, {1, "Some issue"}, {1, "Some resolution"}, 1524},
-
         {2, 1003, {4, 0, 29, 5, 2023}, 4, {1, "Some issue"}, {1, "Some resolution"}, 9884},
         {2, 1004, {6, 45, 29, 5, 2023}, 5, {1, "Some issue"}, {1, "Some resolution"}, 2423},
         {2, 1005, {17, 5, 29, 5, 2023}, 6, {1, "Some issue"}, {1, "Some resolution"}, 8941},
-
         {2, 1006, {11, 33, 30, 5, 2024}, 7, {1, "Some issue"}, {1, "Some resolution"}, 2412},
         {2, 1007, {13, 45, 30, 5, 2024}, 8, {1, "Some issue"}, {1, "Some resolution"}, 9724},
         {2, 1008, {14, 5, 30, 5, 2024}, 9, {1, "Some issue"}, {1, "Some resolution"}, 6427},
-
         {2, 1001, {9, 23, 31, 5, 2024}, 1, {1, "Some issue"}, {1, "Some resolution"}, 2141},
         {2, 1004, {11, 45, 31, 5, 2024}, 5, {1, "Some issue"}, {1, "Some resolution"}, 7489},
         {2, 1008, {22, 5, 31, 5, 2024}, 6, {1, "Some issue"}, {1, "Some resolution"}, 9884},
-
         {2, 1003, {7, 20, 1, 6, 2024}, 4, {1, "Some issue"}, {1, "Some resolution"}, 2141},
         {2, 1002, {11, 35, 1, 6, 2024}, 3, {1, "Some issue"}, {1, "Some resolution"}, 7489},
         {2, 1001, {19, 5, 1, 6, 2024}, 1, {1, "Some issue"}, {1, "Some resolution"}, 9884},
@@ -97,14 +90,16 @@ int main()
     int size_of_logs = sizeof(qa_logs) / sizeof(qa_logs[0]);
 
     // Display QA logs before sorting
+    printf("The data before sorting\n");
     display_qa_logs(qa_logs, size_of_logs);
 
-    // Sort the QA logs using quick sort algorithm with time complexity BigO(nlogn)
-    qsort(qa_logs, size_of_logs, sizeof(qa_logs[0]), compare_logs);
+    // Sort the QA logs using merge sort algorithm with time complexity BigO(nlogn)
+    merge_sort(qa_logs, 0, size_of_logs - 1);
 
     // Display QA logs after sorting
+    printf("\nThe data after sorting\n");
     display_qa_logs(qa_logs, size_of_logs);
-
+    
     return 0;
 }
 
@@ -145,5 +140,56 @@ int compare_logs(const void *qa_log1, const void *qa_log2) {
         return log1->date_time.minute - log2->date_time.minute;
     } else {
         return 0;
+    }
+}
+
+
+void merge_sort(struct QaLog arr[], int low, int high)
+{
+    if (low < high) {
+        int mid = low + (high - low) / 2;
+        merge_sort(arr, low, mid);
+        merge_sort(arr, mid + 1, high);
+        merge(arr, low, mid, high);
+    }
+}
+
+void merge(struct QaLog arr[], int low, int mid, int high)
+{
+    int i, j, k;
+    int n1 = mid - low + 1;
+    int n2 = high - mid;
+
+    struct QaLog L[n1], R[n2];
+
+    for (i = 0; i < n1; i++)
+        L[i] = arr[low + i];
+    for (j = 0; j < n2; j++)
+        R[j] = arr[mid + 1 + j];
+
+    i = 0;
+    j = 0;
+    k = low;
+    while (i < n1 && j < n2) {
+        if (compare_logs(&L[i], &R[j]) <= 0) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
     }
 }

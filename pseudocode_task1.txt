@@ -79,10 +79,65 @@ Program DisplayQaLogs
 EndProgram
 
 
+Program Merge
+    Read arr, low, mid, high
+    i, j, k
+    n1 = mid - low + 1
+    n2 = high - mid
+
+    struct QaLog L[n1], R[n2]
+
+    i = 0, j = 0
+    While (i < n1)
+        L[i] = arr[low + i]
+    EndWhile
+    While (j < n2)
+        R[j] = arr[mid + 1 + j]
+    EndWhile
+
+    i = 0, j = 0, k = low
+    While (i < n1 and j < n2)
+        If (CompareLogs(&L[i], &R[j]) <= 0)
+            arr[k] = L[i]
+            i++
+        EndIf
+        Else
+            arr[k] = R[j]
+            j+=
+        EndElse
+        k++
+    EndWhile
+
+    While (i < n1)
+        arr[k] = L[i]
+        i++
+        k++
+    EndWhile
+
+    While (j < n2)
+        arr[k] = R[j]
+        j++
+        k++
+    EndWhile
+EndProgram
+
+
+Program MergeSort
+    Read arr, low, high
+
+    If (low < high)
+        mid = low + (high - low) / 2
+        MergeSort(arr, low, mid)
+        MergeSort(arr, mid + 1, high)
+        Merge(arr, low, mid, high)
+    EndIf
+EndProgram
+
+
 Program Main
     struct QaLog qa_logs = {}
     size_of_logs = qa_logs.Length
-    qsort(qa_logs, size_of_logs, sizeof(qa_logs[0]), CompareLogs)
+    merge_sort(qa_logs, 0, size_of_logs - 1)
     DisplayQaLogs(qa_logs, size_of_logs)
     return 0
 EndProgram

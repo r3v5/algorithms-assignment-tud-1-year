@@ -56,19 +56,15 @@ int main()
         {1, 1001, {10, 20, 28, 3, 2023}, 1, {1, "Some issue"}, {1, "Some resolution"}, 2142},
         {1, 1001, {8, 45, 28, 3, 2023}, 2, {1, "Some issue"}, {1, "Some resolution"}, 1342},
         {1, 1002, {2, 5, 28, 3, 2023}, 3, {1, "Some issue"}, {1, "Some resolution"}, 1524},
-
         {1, 1003, {4, 0, 29, 3, 2023}, 4, {1, "Some issue"}, {1, "Some resolution"}, 9884},
         {1, 1004, {6, 45, 29, 3, 2023}, 5, {1, "Some issue"}, {1, "Some resolution"}, 2423},
         {1, 1005, {17, 5, 29, 3, 2023}, 6, {1, "Some issue"}, {1, "Some resolution"}, 8941},
-
         {1, 1006, {11, 33, 30, 3, 2024}, 7, {1, "Some issue"}, {1, "Some resolution"}, 2412},
         {1, 1007, {13, 45, 30, 3, 2024}, 8, {1, "Some issue"}, {1, "Some resolution"}, 9724},
         {1, 1008, {14, 5, 30, 3, 2024}, 9, {1, "Some issue"}, {1, "Some resolution"}, 6427},
-
         {1, 1001, {9, 23, 31, 3, 2024}, 1, {2, "Some issue"}, {1, "Some resolution"}, 2141},
         {1, 1004, {11, 45, 31, 3, 2024}, 5, {1, "Some issue"}, {1, "Some resolution"}, 7489},
         {1, 1008, {22, 5, 31, 3, 2024}, 6, {1, "Some issue"}, {1, "Some resolution"}, 9884},
-
         {1, 1003, {7, 20, 1, 4, 2024}, 4, {1, "Some issue"}, {1, "Some resolution"}, 2141},
         {1, 1002, {11, 35, 1, 4, 2024}, 3, {1, "Some issue"}, {1, "Some resolution"}, 7489},
         {1, 1001, {19, 5, 1, 4, 2024}, 1, {3, "Some issue"}, {1, "Some resolution"}, 9884},
@@ -78,19 +74,15 @@ int main()
         {2, 1001, {10, 20, 28, 5, 2023}, 1, {1, "Some issue"}, {1, "Some resolution"}, 2142},
         {2, 1001, {8, 45, 28, 5, 2023}, 2, {1, "Some issue"}, {1, "Some resolution"}, 1342},
         {2, 1002, {2, 5, 28, 5, 2023}, 3, {1, "Some issue"}, {1, "Some resolution"}, 1524},
-
         {2, 1003, {4, 0, 29, 5, 2023}, 4, {1, "Some issue"}, {1, "Some resolution"}, 9884},
         {2, 1004, {6, 45, 29, 5, 2023}, 5, {1, "Some issue"}, {1, "Some resolution"}, 2423},
         {2, 1005, {17, 5, 29, 5, 2023}, 6, {1, "Some issue"}, {1, "Some resolution"}, 8941},
-
         {2, 1006, {11, 33, 30, 5, 2024}, 7, {1, "Some issue"}, {1, "Some resolution"}, 2412},
         {2, 1007, {13, 45, 30, 5, 2024}, 8, {1, "Some issue"}, {1, "Some resolution"}, 9724},
         {2, 1008, {14, 5, 30, 5, 2024}, 9, {1, "Some issue"}, {1, "Some resolution"}, 6427},
-
         {2, 1001, {9, 23, 31, 5, 2024}, 1, {1, "Some issue"}, {1, "Some resolution"}, 2141},
         {2, 1004, {11, 45, 31, 5, 2024}, 5, {1, "Some issue"}, {1, "Some resolution"}, 7489},
         {2, 1008, {22, 5, 31, 5, 2024}, 6, {1, "Some issue"}, {1, "Some resolution"}, 9884},
-
         {2, 1003, {7, 20, 1, 6, 2024}, 4, {1, "Some issue"}, {1, "Some resolution"}, 2141},
         {2, 1002, {11, 35, 1, 6, 2024}, 3, {1, "Some issue"}, {1, "Some resolution"}, 7489},
         {2, 1001, {19, 5, 1, 6, 2024}, 1, {1, "Some issue"}, {1, "Some resolution"}, 9884},
@@ -103,9 +95,9 @@ int main()
     display_qa_logs(qa_logs, size_of_logs);
 
     // Enter the product id and line code
-    printf("Enter the Product ID from 1 to 9:\n");
+    printf("\nEnter the Product ID from 1 to 9:\n");
     scanf("%d", &product_id);
-    printf("Enter the Line Code from 1 to 2:\n");
+    printf("\nEnter the Line Code from 1 to 2:\n");
     scanf("%d", &line_code);
 
     generate_report(qa_logs, size_of_logs, product_id, line_code);
