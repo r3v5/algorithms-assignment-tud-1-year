@@ -7,7 +7,7 @@ Structure DateTime:
     year
 EndStructure
 
-Structuretruct Issue:
+Structure Issue:
     issue_code
     description
 EndStructure
