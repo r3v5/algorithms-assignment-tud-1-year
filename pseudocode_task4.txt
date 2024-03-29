@@ -20,7 +20,7 @@ EndStructure
 Structure QaLog:
     line_code;
     batch_code;
-    DateTime date_time;
+    struct DateTime date_time;
     product_id;
     struct Issue issue;
     struct Resolution resolution;
