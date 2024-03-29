@@ -87,3 +87,4 @@ Program Main
     DisplayQaLogs(qa_logs, size_of_logs)
 
     return 0
+EndProgram

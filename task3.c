@@ -60,8 +60,8 @@ int main()
         {1, 1004, {6, 45, 29, 3, 2023}, 5, {1, "Some isue"}, {1, "Some resolution"}, 2423},
         {1, 1005, {17, 5, 29, 3, 2023}, 6, {1, "Some issue"}, {1, "Some resolution"}, 8941},
 
-        {1, 1006, {11, 33, 30, 3, 2024}, 7, {1, "Some issue"}, {1, "Some resolution"}, 2412},
-        {1, 1007, {13, 45, 30, 3, 2024}, 8, {1, "Some isue"}, {1, "Some resolution"}, 9724},
+        {1, 1006, {11, 33, 30, 3, 2024}, 7, {3, "Some issue"}, {1, "Some resolution"}, 2412},
+        {1, 1007, {13, 45, 30, 3, 2024}, 7, {2, "Some isue"}, {1, "Some resolution"}, 9724},
         {1, 1008, {14, 5, 30, 3, 2024}, 9, {1, "Some issue"}, {1, "Some resolution"}, 6427},
 
         {1, 1001, {9, 23, 31, 3, 2024}, 1, {2, "Some issue"}, {1, "Some resolution"}, 2141},
@@ -96,7 +96,8 @@ int main()
     };
 
     int size_of_logs = sizeof(qa_logs) / sizeof(qa_logs[0]);
-    generate_report(qa_logs, size_of_logs, 6);
+    int product_id = 7;
+    generate_report(qa_logs, size_of_logs, product_id);
 
     return 0;
 }
@@ -108,8 +109,6 @@ int compare_logs(const void *qa_log1, const void *qa_log2) {
 
     if (log1->product_id != log2->product_id) {
         return log1->product_id - log2->product_id;
-    } else if (log1->issue.issue_code != log2->issue.issue_code) {
-        return log1->issue.issue_code - log2->issue.issue_code;
     } else if (log1->date_time.year != log2->date_time.year) {
         return log1->date_time.year - log2->date_time.year;
     } else if (log1->date_time.month != log2->date_time.month) {
@@ -128,7 +127,20 @@ int compare_logs(const void *qa_log1, const void *qa_log2) {
 
 void generate_report(struct QaLog qa_logs[], int size_of_logs, int product_id)
 {
-    int issue;
-    qsort(qa_logs, size_of_logs, sizeof(qa_logs[0]), compare_logs);
-    printf("The earliest issue occurance for Product ID %d is %d\n", product_id, qa_logs[0].issue.issue_code);
+    qsort(qa_logs, size_of_logs, sizeof(qa_logs[0]), compare_logs); // Sort logs by product ID and issue code
+
+    int earliest_issue_code = -1;
+    for (int i = 0; i < size_of_logs; i++) {
+        if (qa_logs[i].product_id == product_id) {
+            earliest_issue_code = qa_logs[i].issue.issue_code;
+            break;
+        }
+    }
+
+    if (earliest_issue_code != -1) {
+        printf("The earliest issue occurrence for Product ID %d is %d\n", product_id, earliest_issue_code);
+    } else {
+        printf("No logs found for product ID %d.\n", product_id);
+    }
 }
+

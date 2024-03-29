@@ -96,7 +96,8 @@ int main()
     };
 
     int size_of_logs = sizeof(qa_logs) / sizeof(qa_logs[0]);
-    generate_report(qa_logs, size_of_logs, 6);
+    int product_id = 6;
+    generate_report(qa_logs, size_of_logs, product_id);
 
     return 0;
 }

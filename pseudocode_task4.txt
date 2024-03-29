@@ -35,6 +35,9 @@ Program CompareLogs
     If (log1.product_id != log2.product_id)
         return log1.product_id - log2.product_id
     EndIf
+    If (log1.issue.issue_code != log2.issue.issue_code)
+        return log1.issue.issue_code - log2.issue.issue_code
+    EndIf
     If (log1.date_time.year != log2.date_time.year)
         return log1.date_time.year - log2.date_time.year
     EndIf
@@ -58,31 +61,25 @@ EndProgram
 
 Program GenerateReport
     Read qa_logs, size_of_logs, product_id
-    qsort(qa_logs, size_of_logs, sizeof(qa_logs[0]), CompareLogs)
-    earliest_issue_code = -1
+    issue_count = 0
     i = 0
     N = size_of_logs
 
     While (i < N)
         If (qa_logs[i].product_id == product_id)
-            earliest_issue_code = qa_logs[i].issue.issue_code
+            issue_count++
             break
         EndIf
     EndWhile
-    If (earliest_issue_code != -1)
-        Print("The earliest issue occurrence for Product ID %d is %d\n", product_id, earliest_issue_code)
-    EndIf
-    Else (
-        Print("No logs found for product ID %d.\n", product_id)
-    )
-    EndElse
+    Print("Report\n")
+    Print("Issues count: %d\n", issue_count)
 EndProgram
 
 
 Program Main
     struct QaLog qa_logs = {}
     size_of_logs = qa_logs.Length
-    product_id = 7
+    product_id = 6
     GenerateReport(qa_logs, size_of_logs, product_id)
     return 0
 EndProgram

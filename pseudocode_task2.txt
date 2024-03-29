@@ -69,3 +69,4 @@ Program Main
     line_code = 1
     GenerateReport(qa_logs, size_of_logs, product_id, line_code)
     return 0
+EndProgram
