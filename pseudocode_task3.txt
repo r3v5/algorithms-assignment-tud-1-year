@@ -56,33 +56,67 @@ Program CompareLogs
 EndProgram
 
 
-Program GenerateReport
-    Read qa_logs, size_of_logs, product_id
-    qsort(qa_logs, size_of_logs, sizeof(qa_logs[0]), CompareLogs)
-    earliest_issue_code = -1
+Program DisplayQaLogs
+    Read qa_logs, size_of_logs
     i = 0
     N = size_of_logs
 
     While (i < N)
-        If (qa_logs[i].product_id == product_id)
-            earliest_issue_code = qa_logs[i].issue.issue_code
-            break
-        EndIf
+        Print(
+            qa_logs[i].line_code, qa_logs[i].batch_code,
+            qa_logs[i].date_time.day, qa_logs[i].date_time.month, qa_logs[i].date_time.year,
+            qa_logs[i].date_time.hour, qa_logs[i].date_time.minute,
+            qa_logs[i].product_id,
+            qa_logs[i].issue.issue_code, qa_logs[i].issue.description,
+            qa_logs[i].resolution.resolution_code, qa_logs[i].resolution.description,
+            qa_logs[i].reporting_employee_id
+        )
+        i++
     EndWhile
-    If (earliest_issue_code != -1)
-        Print("The earliest issue occurrence for Product ID %d is %d\n", product_id, earliest_issue_code)
-    EndIf
-    Else (
-        Print("No logs found for product ID %d.\n", product_id)
-    )
-    EndElse
 EndProgram
 
 
+Program FindEarliestIssueCode
+    Read qa_logs, size_of_logs, product_id
+    qsort(qa_logs, size_of_logs, sizeof(qa_logs[0]), CompareLogs)
+    N = size_of_logs
+    left = 0
+    right = N - 1
+    earliest_issue_code = -1
+
+    While (left <= right)
+        mid = left + (right - left) / 2
+        If (qa_logs[mid].product_id == product_id)
+            earliest_issue_code = qa_logs[mid].issue.issue_code
+            While (mid >= 0 && qa_logs[mid].product_id == product_id)
+                earliest_issue_code = qa_logs[mid].issue.issue_code
+                mid--
+            EndWhile
+        EndIf
+        Elif (qa_logs[mid].product_id < product_id)
+            left = mid + 1
+        EndElif
+        Else
+            right = mid - 1
+        EndElse
+    EndWhile
+    return earliest_issue_code
+EndProgram
+        
+
 Program Main
+    Read product_id
     struct QaLog qa_logs = {}
     size_of_logs = qa_logs.Length
-    product_id = 7
-    GenerateReport(qa_logs, size_of_logs, product_id)
+    
+    DisplayQaLogs(qa_logs, size_of_logs)
+    earliest_issue_code = find_earliest_issue_code(qa_logs, size_of_logs, product_id)
+    If (earliest_issue_code != -1)
+        Print("The earliest issue occurrence for Product ID %d is %d\n", product_id, earliest_issue_code)
+    EndIf
+    Else
+        Print("No logs found for product ID %d.\n", product_id)
+    EndElse
+
     return 0
 EndProgram

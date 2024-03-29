@@ -82,9 +82,7 @@ EndProgram
 Program Main
     struct QaLog qa_logs = {}
     size_of_logs = qa_logs.Length
-
     qsort(qa_logs, size_of_logs, sizeof(qa_logs[0]), CompareLogs)
     DisplayQaLogs(qa_logs, size_of_logs)
-
     return 0
 EndProgram

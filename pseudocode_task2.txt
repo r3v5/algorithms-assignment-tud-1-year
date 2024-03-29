@@ -62,11 +62,31 @@ Program GenerateReport
 EndProgram
 
 
+Program DisplayQaLogs
+    Read qa_logs, size_of_logs
+    i = 0
+    N = size_of_logs
+
+    While (i < N)
+        Print(
+            qa_logs[i].line_code, qa_logs[i].batch_code,
+            qa_logs[i].date_time.day, qa_logs[i].date_time.month, qa_logs[i].date_time.year,
+            qa_logs[i].date_time.hour, qa_logs[i].date_time.minute,
+            qa_logs[i].product_id,
+            qa_logs[i].issue.issue_code, qa_logs[i].issue.description,
+            qa_logs[i].resolution.resolution_code, qa_logs[i].resolution.description,
+            qa_logs[i].reporting_employee_id
+        )
+        i++
+    EndWhile
+EndProgram
+
+
 Program Main
+    Read product_id, line_code
     struct QaLog qa_logs = {}
     size_of_logs = qa_logs.Length
-    product_id = 1
-    line_code = 1
+    DisplayQaLogs(qa_logs, size_of_logs)
     GenerateReport(qa_logs, size_of_logs, product_id, line_code)
     return 0
 EndProgram
